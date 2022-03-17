@@ -14,6 +14,7 @@ import (
 	"encoding/json"
 
 	"errors"
+
 	"github.com/zhwei820/gconv/empty"
 	"github.com/zhwei820/gconv/structs"
 
@@ -307,7 +308,7 @@ func bindVarToStructAttr(elem reflect.Value, name string, value interface{}, map
 	defer func() {
 		if exception := recover(); exception != nil {
 			if err = bindVarToReflectValue(structFieldValue, value, mapping, priorityTag); err != nil {
-				err = errors.Maskf(err, `error binding value to attribute "%s"`, name)
+				err = fmt.Errorf(`error binding value to attribute "%s", err:%s`, name, err.Error())
 			}
 		}
 	}()
