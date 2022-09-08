@@ -55,7 +55,7 @@ func Digits(n int) string {
 		remain--
 	}
 
-	return sb.String()
+	return strings.TrimLeft(sb.String(), "0")
 }
 
 func Intn(n int) int {
