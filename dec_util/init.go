@@ -10,6 +10,8 @@ import (
 	"golang.org/x/text/message"
 )
 
+var AlmostEqualPrecision = 7. // almost-equal-precision
+
 func DecToE8Int(v decimal.Decimal) int64 {
 	return v.Shift(8).IntPart()
 }
@@ -58,7 +60,7 @@ func FromString(v string) decimal.Decimal {
 
 func AlmostEqual(v1, v2 decimal.Decimal, place ...float64) bool {
 	if len(place) == 0 {
-		place = []float64{7}
+		place = []float64{AlmostEqualPrecision}
 	}
 	return (v1.Sub(v2)).Abs().LessThanOrEqual(decimal.NewFromFloat(1. / math.Pow(10, place[0])))
 }
