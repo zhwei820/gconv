@@ -366,6 +366,8 @@ func String(any interface{}) string {
 			return "0"
 		}
 		return value.String()
+	case apiString:
+		return value.String()
 
 	default:
 		// Empty checks.
