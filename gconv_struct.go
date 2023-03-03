@@ -13,8 +13,7 @@ import (
 
 	"encoding/json"
 
-	"errors"
-
+	"gitee.com/spwx/errors"
 	"github.com/zhwei820/gconv/empty"
 	"github.com/zhwei820/gconv/structs"
 
@@ -26,14 +25,14 @@ import (
 // custom key name and the attribute name(case sensitive).
 //
 // Note:
-// 1. The `params` can be any type of map/struct, usually a map.
-// 2. The `pointer` should be type of *struct/**struct, which is a pointer to struct object
-//    or struct pointer.
-// 3. Only the public attributes of struct object can be mapped.
-// 4. If `params` is a map, the key of the map `params` can be lowercase.
-//    It will automatically convert the first letter of the key to uppercase
-//    in mapping procedure to do the matching.
-//    It ignores the map key, if it does not match.
+//  1. The `params` can be any type of map/struct, usually a map.
+//  2. The `pointer` should be type of *struct/**struct, which is a pointer to struct object
+//     or struct pointer.
+//  3. Only the public attributes of struct object can be mapped.
+//  4. If `params` is a map, the key of the map `params` can be lowercase.
+//     It will automatically convert the first letter of the key to uppercase
+//     in mapping procedure to do the matching.
+//     It ignores the map key, if it does not match.
 func Struct(params interface{}, pointer interface{}, mapping ...map[string]string) (err error) {
 	var keyToAttributeNameMapping map[string]string
 	if len(mapping) > 0 {
@@ -66,7 +65,7 @@ func doStruct(params interface{}, pointer interface{}, mapping map[string]string
 		return nil
 	}
 	if pointer == nil {
-		return errors.New("object pointer cannot be nil")
+		return errors.Errorf("object pointer cannot be nil")
 	}
 
 	defer func() {
@@ -129,7 +128,7 @@ func doStruct(params interface{}, pointer interface{}, mapping map[string]string
 		}
 		// Using IsNil on reflect.Ptr variable is OK.
 		if !pointerReflectValue.IsValid() || pointerReflectValue.IsNil() {
-			return errors.New("object pointer cannot be nil")
+			return errors.Errorf("object pointer cannot be nil")
 		}
 		pointerElemReflectValue = pointerReflectValue.Elem()
 	}
@@ -308,7 +307,7 @@ func bindVarToStructAttr(elem reflect.Value, name string, value interface{}, map
 	defer func() {
 		if exception := recover(); exception != nil {
 			if err = bindVarToReflectValue(structFieldValue, value, mapping, priorityTag); err != nil {
-				err = fmt.Errorf(`error binding value to attribute "%s", err:%s`, name, err.Error())
+				err = errors.Annotatef(err, `error binding value to attribute "%s"`, name)
 			}
 		}
 	}()
@@ -461,7 +460,7 @@ func bindVarToReflectValue(structFieldValue reflect.Value, value interface{}, ma
 	default:
 		defer func() {
 			if exception := recover(); exception != nil {
-				err = errors.New(
+				err = errors.Errorf(
 					fmt.Sprintf(`cannot convert value "%+v" to type "%s":%+v`,
 						value,
 						structFieldValue.Type().String(),

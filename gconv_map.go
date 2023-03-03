@@ -14,17 +14,31 @@ import (
 	"github.com/zhwei820/gconv/utils"
 )
 
-// Map converts any variable `value` to map[string]interface{}. If the parameter `value` is not a
-// map/struct/*struct type, then the conversion will fail and returns nil.
-//
-// If `value` is a struct/*struct object, the second parameter `tags` specifies the most priority
-// tags that will be detected, otherwise it detects the tags in order of:
-// gconv, json, field name.
-func Map(value interface{}, tags ...string) map[string]interface{} {
-	dataMap := doMapConvert(value, false, tags...)
-	if len(tags) > 0 { // filter by tags
+// exclude by key
+func MapExclude(value interface{}, fields ...string) map[string]interface{} {
+	dataMap := doMapConvert(value, false)
+	if len(fields) > 0 { // filter by fields
+		fieldMap := map[string]struct{}{}
+		for _, v := range fields {
+			fieldMap[v] = struct{}{}
+		}
 		ret := map[string]interface{}{}
-		for _, tag := range tags {
+		for key, val := range dataMap {
+			if _, ok := fieldMap[key]; !ok {
+				ret[key] = val
+			}
+		}
+		return ret
+	}
+	return dataMap
+}
+
+// filter by key
+func Map(value interface{}, fields ...string) map[string]interface{} {
+	dataMap := doMapConvert(value, false)
+	if len(fields) > 0 { // filter by fields
+		ret := map[string]interface{}{}
+		for _, tag := range fields {
 			if v, ok := dataMap[tag]; ok {
 				ret[tag] = v
 			}
@@ -34,12 +48,18 @@ func Map(value interface{}, tags ...string) map[string]interface{} {
 	return dataMap
 }
 
-// MapDeep does Map function recursively, which means if the attribute of `value`
-// is also a struct/*struct, calls Map function on this attribute converting it to
-// a map[string]interface{} type variable.
-// Also see Map.
-func MapDeep(value interface{}, tags ...string) map[string]interface{} {
-	return doMapConvert(value, true, tags...)
+func MapDeep(value interface{}, fields ...string) map[string]interface{} {
+	dataMap := doMapConvert(value, true)
+	if len(fields) > 0 { // filter by fields
+		ret := map[string]interface{}{}
+		for _, tag := range fields {
+			if v, ok := dataMap[tag]; ok {
+				ret[tag] = v
+			}
+		}
+		return ret
+	}
+	return dataMap
 }
 
 // doMapConvert implements the map converting.

@@ -1,0 +1,6 @@
+{"log_level":"debug","ts":"2023-03-02 11:22:43.046 CST","caller":"fn/func_trace.go:49","msg":"fn.funcTest start","component":"","params...":["trace_caller","func_trace_test.go:11"],"x_request_id":null}
+{"log_level":"info","ts":"2023-03-02 11:22:43.047 CST","caller":"fn/func_trace.go:71","msg":"fn.funcTest done","component":"","results...":["trace_caller","func_trace_test.go:11","duration",5.01e-7],"x_request_id":null}
+{"log_level":"debug","ts":"2023-03-02 11:23:18.293 CST","caller":"fn/func_trace.go:49","msg":"fn.funcTest start","component":"","params...":["trace_caller","func_trace_test.go:11"],"x_request_id":null}
+{"log_level":"info","ts":"2023-03-02 11:23:18.293 CST","caller":"fn/func_trace.go:71","msg":"fn.funcTest done","component":"","results...":["trace_caller","func_trace_test.go:11","duration",7.14e-7],"x_request_id":null}
+{"log_level":"debug","ts":"2023-03-02 11:24:23.882 CST","caller":"fn/func_trace.go:49","msg":"fn.funcTest start","component":"","params...":["req",[1,2,3,4],"trace_caller","func_trace_test.go:11"],"x_request_id":null}
+{"log_level":"info","ts":"2023-03-02 11:24:23.883 CST","caller":"fn/func_trace.go:71","msg":"fn.funcTest done","component":"","results...":["trace_caller","func_trace_test.go:11","duration",4.19e-7],"x_request_id":null}

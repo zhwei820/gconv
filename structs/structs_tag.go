@@ -7,9 +7,10 @@
 package structs
 
 import (
-	"errors"
 	"reflect"
 	"strconv"
+
+	"gitee.com/spwx/errors"
 )
 
 // ParseTag parses tag string into map.
@@ -143,7 +144,7 @@ exitLoop:
 		reflectKind = reflectValue.Kind()
 	}
 	if reflectKind != reflect.Struct {
-		return nil, errors.New("given value should be either type of struct/*struct/[]struct/[]*struct")
+		return nil, errors.Errorf("given value should be either type of struct/*struct/[]struct/[]*struct")
 	}
 	var (
 		structType = reflectValue.Type()

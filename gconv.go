@@ -20,6 +20,7 @@ import (
 
 	"encoding/json"
 
+	"github.com/shopspring/decimal"
 	"github.com/zhwei820/gconv/encoding/gbinary"
 )
 
@@ -232,7 +233,9 @@ func doConvert(input doConvertInput) interface{} {
 
 	case "map[string]interface{}":
 		return Map(input.FromValue)
-
+	case "decimal.Decimal":
+		v, _ := decimal.NewFromString(String(input.FromValue))
+		return v
 	default:
 		if input.ReferValue != nil {
 			var (
@@ -304,6 +307,11 @@ func Runes(any interface{}) []rune {
 // String converts `any` to string.
 // It's most common used converting function.
 func String(any interface{}) string {
+	defer func() {
+		if err := recover(); err != nil {
+			_ = err
+		}
+	}()
 	if any == nil {
 		return ""
 	}
@@ -348,17 +356,27 @@ func String(any interface{}) string {
 			return ""
 		}
 		return value.String()
+	case decimal.Decimal:
+		if value.IsZero() {
+			return "0"
+		}
+		return value.String()
+	case *decimal.Decimal:
+		if value == nil {
+			return "0"
+		}
+		return value.String()
 
 	default:
 		// Empty checks.
 		if value == nil {
 			return ""
 		}
-		if f, ok := value.(apiString); ok {
-			// If the variable implements the String() interface,
-			// then use that interface to perform the conversion
-			return f.String()
-		}
+		// if f, ok := value.(apiString); ok {
+		// 	// If the variable implements the String() interface,
+		// 	// then use that interface to perform the conversion
+		// 	return f.String()
+		// }
 		if f, ok := value.(apiError); ok {
 			// If the variable implements the Error() interface,
 			// then use that interface to perform the conversion
@@ -383,9 +401,9 @@ func String(any interface{}) string {
 		case reflect.String:
 			return rv.String()
 		}
-		if kind == reflect.Ptr {
-			return String(rv.Elem().Interface())
-		}
+		// if kind == reflect.Ptr {
+		// 	return String(rv.Elem().Interface())
+		// }
 		// Finally we use json.Marshal to convert.
 		if jsonContent, err := json.Marshal(value); err != nil {
 			return fmt.Sprint(value)
@@ -482,6 +500,16 @@ func Int32(any interface{}) int32 {
 		return v
 	}
 	return int32(Int64(any))
+}
+
+// Int64 converts `any` to int64 e8.
+func Int64E8(any interface{}) int64 {
+	return Decimal(any).Shift(8).IntPart()
+}
+
+// Int64 converts `any` to int64 e8.
+func Int64E8WithPanic(any interface{}) int64 {
+	return DecimalWithPanic(any).Shift(8).IntPart()
 }
 
 // Int64 converts `any` to int64.
@@ -712,4 +740,33 @@ func Float64(any interface{}) float64 {
 		v, _ := strconv.ParseFloat(String(any), 64)
 		return v
 	}
+}
+
+// Decimal converts `any` to float64. WithPanic
+func Decimal(any interface{}) decimal.Decimal {
+	if any == nil {
+		return decimal.Zero
+	}
+	s := String(any)
+
+	d, _ := decimal.NewFromString(s)
+	return d
+}
+
+// Decimal converts `any` to float64. WithPanic
+func DecimalWithPanic(any interface{}) decimal.Decimal {
+	if any == nil {
+		return decimal.Zero
+	}
+	s := String(any)
+
+	d, err := decimal.NewFromString(s)
+	if err != nil {
+		panic(err)
+	}
+	return d
+}
+
+func Int64WithPanic(any interface{}) int64 {
+	return DecimalWithPanic(any).IntPart()
 }

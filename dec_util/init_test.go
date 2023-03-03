@@ -43,7 +43,7 @@ func TestAlmostEqual(t *testing.T) {
 	type args struct {
 		v1    decimal.Decimal
 		v2    decimal.Decimal
-		place []float64
+		place []int32
 	}
 	tests := []struct {
 		name string

@@ -98,7 +98,7 @@ func IsEmpty(value interface{}) bool {
 			if f == nil {
 				return true
 			}
-			return f.String() == ""
+			return f.String() == "" || f.String() == "0"
 		}
 		if f, ok := value.(apiInterfaces); ok {
 			if f == nil {

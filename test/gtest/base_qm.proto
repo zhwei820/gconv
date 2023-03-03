@@ -1,0 +1,30 @@
+syntax = "proto3";
+package gtest;
+
+option go_package = "./gtest";
+
+message GetUserQuotaReq {
+  string biz = 2;
+  string currency = 3;
+  string user_id = 4;
+  string purchased_amount = 5; //
+}
+
+message GetQuotaTierResp {
+  message Tier_quota_list {
+      string max = 1;
+      string min = 2;
+      string match_amount = 3;
+      // 平均apy
+      string avg_apy = 4;
+      // apy 修改的数量
+      string apy_change = 5;
+  }
+
+  string id = 1;
+  string biz_type = 5;
+  string currency = 6;
+  int64 product_channel = 7;
+  repeated int64 sub_type_id_list = 8;
+  repeated Tier_quota_list tier_quota_list = 9;
+}

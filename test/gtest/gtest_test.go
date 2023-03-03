@@ -6,3 +6,17 @@
 
 // Package gtest provides convenient test utilities for unit testing.
 package gtest
+
+import (
+	"fmt"
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/zhwei820/gconv"
+)
+
+func Test_SliceStr(t *testing.T) {
+	res := gconv.SliceStr([]int64{1, 2, 3})
+	fmt.Println(res)
+	assert.Equal(t, res, []string{"1", "2", "3"})
+}

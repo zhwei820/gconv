@@ -22,3 +22,13 @@ func TestMap(t *testing.T) {
 	assert.Equal(t, m["B"], 2)
 	assert.Nil(t, m["A"])
 }
+
+func TestMapExclude(t *testing.T) {
+	m := MapExclude(struct {
+		A string
+		B int
+	}{A: "dfd", B: 2}, "B")
+	fmt.Println("m", m)
+	assert.Equal(t, m["A"], "dfd")
+	assert.Nil(t, m["B"])
+}

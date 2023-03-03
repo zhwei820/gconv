@@ -10,19 +10,14 @@ import (
 	"golang.org/x/text/message"
 )
 
-var AlmostEqualPrecision = 7. // almost-equal-precision
+var AlmostEqualPrecision int32 = 7 // almost-equal-precision
 
 func DecToE8Int(v decimal.Decimal) int64 {
 	return v.Shift(8).IntPart()
 }
 
 // 金额 => 逗号分隔字符串
-//
-// 大于1:
-// u: 2位
-// 非u：2～5位，即至少2位，超过2位末尾=0隐藏，小于2位补0
-// 小于1: 2～8位，即至少2位，即至少2位，超过2位末尾=0隐藏，小于2位补0
-
+// https://wiki.mark1.dev/pages/viewpage.action?pageId=25956170
 func DecimalToEnStr(v decimal.Decimal, usd ...bool) string {
 	var formatAmount = func(intPart int64, decimals decimal.Decimal, place int) string {
 		p := message.NewPrinter(language.English)
@@ -58,15 +53,19 @@ func FromString(v string) decimal.Decimal {
 	return d
 }
 
-func AlmostEqual(v1, v2 decimal.Decimal, place ...float64) bool {
+func AlmostEqual(v1, v2 decimal.Decimal, place ...int32) bool {
 	if len(place) == 0 {
-		place = []float64{AlmostEqualPrecision}
+		place = []int32{AlmostEqualPrecision}
 	}
-	return (v1.Sub(v2)).Abs().LessThanOrEqual(decimal.NewFromFloat(1. / math.Pow(10, place[0])))
+	return (v1.Sub(v2)).Abs().LessThanOrEqual(decimal.New(1, -place[0]))
 }
 
 func PowDecimal(a, b decimal.Decimal) decimal.Decimal {
 	aa, _ := a.Float64()
 	bb, _ := b.Float64()
 	return decimal.NewFromFloat(math.Pow(aa, bb))
+}
+
+func Between(i, a, b decimal.Decimal) bool {
+	return i.GreaterThanOrEqual(a) && i.LessThanOrEqual(b)
 }
