@@ -13,7 +13,7 @@ import (
 
 	"encoding/json"
 
-	"gitee.com/spwx/errors"
+	"github.com/zhwei820/errors"
 	"github.com/zhwei820/gconv/empty"
 	"github.com/zhwei820/gconv/structs"
 

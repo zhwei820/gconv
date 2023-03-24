@@ -13,8 +13,8 @@ import (
 	"fmt"
 	"testing"
 
-	"gitee.com/spwx/errors"
 	"github.com/stretchr/testify/assert"
+	"github.com/zhwei820/errors"
 )
 
 func TestInt64E8WithPanic(t *testing.T) {

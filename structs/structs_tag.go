@@ -10,7 +10,7 @@ import (
 	"reflect"
 	"strconv"
 
-	"gitee.com/spwx/errors"
+	"github.com/zhwei820/errors"
 )
 
 // ParseTag parses tag string into map.

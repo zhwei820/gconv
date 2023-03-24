@@ -4,8 +4,8 @@ import (
 	"context"
 	"reflect"
 
-	"gitee.com/spwx/errors"
 	"github.com/gin-gonic/gin"
+	"github.com/zhwei820/errors"
 )
 
 func BindQuery(ctx context.Context, g *gin.Context, req interface{}) error {
