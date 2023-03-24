@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/bmizerany/assert v0.0.0-20160611221934-b7ed37b82869
 	github.com/gin-gonic/gin v1.9.0
-	github.com/shopspring/decimal v1.2.0
+	github.com/shopspring/decimal v1.3.1
 	github.com/stretchr/testify v1.8.2
 	github.com/zhwei820/errors v0.0.3
 	github.com/zhwei820/log v0.0.2
