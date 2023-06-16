@@ -179,6 +179,8 @@ github.com/ugorji/go/codec v1.2.11/go.mod h1:UNopzCgEMSXjBc6AOMqYvWC1ktqTAfzJZUZ
 github.com/yuin/goldmark v1.3.5/go.mod h1:mwnBkeHKe2W/ZEtQ+71ViKU8L12m81fl3OWwC1Zlc8k=
 github.com/zhwei820/errors v0.0.3 h1:5HQGPTNJ/kFCNGf4d42HKaheESCFZTJdbLQY3V/510Q=
 github.com/zhwei820/errors v0.0.3/go.mod h1:oebHEJrHvF2fhhBMkH86Wm7LbB+TPerOI/pqQWRG+XI=
+github.com/zhwei820/errors v1.0.2 h1:lxxgnCdfX0cD/SEvde2Yq3lyxk9Zut0yOwSPojXNN8E=
+github.com/zhwei820/errors v1.0.2/go.mod h1:oebHEJrHvF2fhhBMkH86Wm7LbB+TPerOI/pqQWRG+XI=
 github.com/zhwei820/log v0.0.2 h1:N4QhQFcqxQUrodiXjkJyDwNiYt1FjE0GkGDN1Fp483Q=
 github.com/zhwei820/log v0.0.2/go.mod h1:HwQPY9d75c7Mzx60308krO4euWW4qn/QRF2p58s6MuE=
 go.opentelemetry.io/proto/otlp v0.7.0/go.mod h1:PqfVotwruBrMGOCsRd/89rSnXhoiJIqeYNgFYFoEGnI=

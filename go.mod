@@ -7,7 +7,7 @@ require (
 	github.com/gin-gonic/gin v1.9.0
 	github.com/shopspring/decimal v1.3.1
 	github.com/stretchr/testify v1.8.2
-	github.com/zhwei820/errors v0.0.3
+	github.com/zhwei820/errors v1.0.2
 	github.com/zhwei820/log v0.0.2
 	go.uber.org/zap v1.19.1
 	golang.org/x/text v0.8.0
