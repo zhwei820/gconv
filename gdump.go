@@ -29,6 +29,14 @@ func Dump(i ...interface{}) {
 
 const EXPORT_KEY = "GOEXPORT"
 
+func SetExportExpand(expand bool) {
+	if expand {
+		os.Setenv(EXPORT_KEY, "1")
+	} else {
+		os.Setenv(EXPORT_KEY, "")
+	}
+}
+
 // Export returns variables <i...> as a string with more manually readable.
 func Export(i ...interface{}) string {
 	if len(i) == 0 {
