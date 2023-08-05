@@ -1,6 +1,9 @@
 package gconv
 
-import "os"
+import (
+	"encoding/json"
+	"os"
+)
 
 func WriteToFile(v interface{}, fn string) {
 	os.Create(fn)
@@ -13,6 +16,21 @@ func WriteToFile(v interface{}, fn string) {
 	SetExportExpand(true)
 
 	_, err = file.Write([]byte(Export(v)))
+	if err != nil {
+		panic(err)
+	}
+}
+
+func LoadJsonFromFile(v interface{}, fn string) {
+	file, err := os.Open(fn)
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+
+	decoder := json.NewDecoder(file)
+
+	err = decoder.Decode(v)
 	if err != nil {
 		panic(err)
 	}
