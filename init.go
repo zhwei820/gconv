@@ -21,10 +21,10 @@ func WriteToFile(v interface{}, fn string) {
 	}
 }
 
-func LoadJsonFromFile(v interface{}, fn string) {
+func LoadJsonFromFile(v interface{}, fn string) error {
 	file, err := os.Open(fn)
 	if err != nil {
-		panic(err)
+		return err
 	}
 	defer file.Close()
 
@@ -32,6 +32,7 @@ func LoadJsonFromFile(v interface{}, fn string) {
 
 	err = decoder.Decode(v)
 	if err != nil {
-		panic(err)
+		return err
 	}
+	return nil
 }
