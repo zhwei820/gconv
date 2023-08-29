@@ -764,7 +764,7 @@ func DecimalWithPanic(any interface{}) decimal.Decimal {
 
 	d, err := decimal.NewFromString(s)
 	if err != nil {
-		panic(err)
+		panic(s + ": " + err.Error())
 	}
 	return d
 }
