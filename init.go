@@ -1,6 +1,7 @@
 package gconv
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -23,6 +24,8 @@ func WriteToFile(v interface{}, fn string, aes ...*AES) {
 
 	SetExportExpand(true)
 	s, _ := aes[0].Encrypt(Export(v))
+
+	s = base64.StdEncoding.EncodeToString([]byte(s))
 	_, err = file.Write([]byte(s))
 	if err != nil {
 		panic(err)
@@ -43,8 +46,8 @@ func LoadJsonFromFile(v interface{}, fn string, aes ...*AES) error {
 
 	// Convert []byte to string
 	s, _ := aes[0].Decrypt(string(data))
-
-	err = json.Unmarshal([]byte(s), v)
+	sByte, _ := base64.StdEncoding.DecodeString(s)
+	err = json.Unmarshal([]byte(sByte), v)
 	if err != nil {
 		return err
 	}
