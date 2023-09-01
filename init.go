@@ -2,10 +2,18 @@ package gconv
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 )
 
-func WriteToFile(v interface{}, fn string) {
+var key = "XefXzFKWgIVkvWTf"
+
+func WriteToFile(v interface{}, fn string, aes ...*AES) {
+	if aes == nil {
+		aes = append(aes, &AES{
+			Key: []byte(key),
+		})
+	}
 	os.Create(fn)
 	file, err := os.OpenFile(fn, os.O_APPEND|os.O_WRONLY, 0644)
 	if err != nil {
@@ -14,23 +22,29 @@ func WriteToFile(v interface{}, fn string) {
 	defer file.Close()
 
 	SetExportExpand(true)
-
-	_, err = file.Write([]byte(Export(v)))
+	s, _ := aes[0].Encrypt(Export(v))
+	_, err = file.Write([]byte(s))
 	if err != nil {
 		panic(err)
 	}
 }
 
-func LoadJsonFromFile(v interface{}, fn string) error {
-	file, err := os.Open(fn)
+func LoadJsonFromFile(v interface{}, fn string, aes ...*AES) error {
+	if aes == nil {
+		aes = append(aes, &AES{
+			Key: []byte(key),
+		})
+	}
+	data, err := os.ReadFile(fn)
 	if err != nil {
+		fmt.Println("Error:", err)
 		return err
 	}
-	defer file.Close()
 
-	decoder := json.NewDecoder(file)
+	// Convert []byte to string
+	s, _ := aes[0].Decrypt(string(data))
 
-	err = decoder.Decode(v)
+	err = json.Unmarshal([]byte(s), v)
 	if err != nil {
 		return err
 	}
