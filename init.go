@@ -45,9 +45,9 @@ func LoadJsonFromFile(v interface{}, fn string, aes ...*AES) error {
 	}
 
 	// Convert []byte to string
-	s, _ := aes[0].Decrypt(string(data))
-	sByte, _ := base64.StdEncoding.DecodeString(s)
-	err = json.Unmarshal([]byte(sByte), v)
+	sByte, _ := base64.StdEncoding.DecodeString(string(data))
+	s, _ := aes[0].Decrypt(string(sByte))
+	err = json.Unmarshal([]byte(s), v)
 	if err != nil {
 		return err
 	}
