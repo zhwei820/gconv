@@ -53,3 +53,37 @@ func LoadJsonFromFile(v interface{}, fn string, aes ...*AES) error {
 	}
 	return nil
 }
+
+func WritePlainToFile(v interface{}, fn string, ) {
+	
+	os.Create(fn)
+	file, err := os.OpenFile(fn, os.O_APPEND|os.O_WRONLY, 0644)
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+
+	_, err = file.Write([]byte(Export(v)))
+	if err != nil {
+		panic(err)
+	}
+}
+
+func LoadPlainJsonFromFile(v interface{}, fn string, aes ...*AES) error {
+	if aes == nil {
+		aes = append(aes, &AES{
+			Key: []byte(key),
+		})
+	}
+	data, err := os.ReadFile(fn)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return err
+	}
+
+	err = json.Unmarshal(data, v)
+	if err != nil {
+		return err
+	}
+	return nil
+}
