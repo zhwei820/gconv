@@ -46,7 +46,7 @@ func FuncTrace(ctx context.Context, params ...interface{}) func(...interface{}) 
 	callFile := getCallerFile(1)
 	params = append(params, "trace_caller", callFile)
 
-	log.DebugZ(ctx, funName+" start", zap.Reflect("params...", params))
+	log.InfoZ(ctx, funName+" start", zap.Reflect("params...", params))
 	start := time.Now()
 	logLevel := log.StrLvlInfo
 	return func(results ...interface{}) {
