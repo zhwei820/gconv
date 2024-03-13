@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+
 )
 
 var key = "XefXzFKWgIVkvWTf"
@@ -80,4 +81,14 @@ func LoadPlainJsonFromFile(v interface{}, fn string) error {
 		return err
 	}
 	return nil
+}
+
+func ReadFromFile( fn string) (string,error) {
+	data, err := os.ReadFile(fn)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return "", err
+	}
+
+	return String(data), nil
 }
