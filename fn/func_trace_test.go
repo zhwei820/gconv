@@ -12,6 +12,6 @@ func funcTest(ctx context.Context) {
 }
 
 func TestFuncTrace(t *testing.T) {
-	log.InitLogger("", false, log.EnvDebug, 3)
+	log.InitLogger("", false, log.RunModeDebug, 3)
 	funcTest(context.Background())
 }
